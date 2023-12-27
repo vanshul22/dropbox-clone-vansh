@@ -18,11 +18,9 @@ const Dropzone = () => {
             const reader = new FileReader();
             reader.onabort = () => console.log("File reading was aborted.")
             reader.onerror = () => console.log("File reading has failed.");
-            reader.onload = async () => {
-                await uploadPost(file);
-            }
+            reader.onload = async () => await uploadPost(file)
             reader.readAsArrayBuffer(file);
-        })
+        });
     }
 
     const uploadPost = async (selectedFile: File) => {

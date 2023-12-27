@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="">
+    <main>
       <div className="flex flex-col lg:flex-row items-center bg-[#1E1919] dark:bg-slate-800">
         <div className="flex flex-col p-10 bg-[#282929] dark:bg-slate-800 text-white space-y-5">
           <h1 className="text-5xl font-bold">Welcome to Dropbox <br />

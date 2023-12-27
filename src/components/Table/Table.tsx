@@ -1,41 +1,21 @@
 "use client"
 
-import {
-    ColumnDef,
-    flexRender,
-    getCoreRowModel,
-    useReactTable,
-} from "@tanstack/react-table"
-
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
+import { ColumnDef, flexRender, getCoreRowModel, useReactTable, } from "@tanstack/react-table"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table"
 import { Button } from "../ui/button"
 import { PencilIcon, TrashIcon } from "lucide-react"
 import { useAppStore } from "@/store/store"
-import { DeleteModal } from "../DeleteModal"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
 }
 
-export function DataTable<TData, TValue>({
-    columns,
-    data,
-}: DataTableProps<TData, TValue>) {
-    const table = useReactTable({
-        data,
-        columns,
-        getCoreRowModel: getCoreRowModel(),
-    })
+export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+    const table = useReactTable({ data, columns, getCoreRowModel: getCoreRowModel() })
 
-    const [fileId, setFileId, filename, setFilename, isDeleteModalOpen, setIsDeleteModalOpen, isRenameModalOpen, setIsRenameModalOpen] = useAppStore(state => [state.fileId, state.setFileId, state.filename, state.setFilename, state.isDeleteModalOpen, state.setIsDeleteModalOpen, state.isRenameModalOpen, state.setIsRenameModalOpen]);
+    // getting store values.
+    const [setFileId, setFilename, setIsDeleteModalOpen, setIsRenameModalOpen] = useAppStore(state => [state.setFileId, state.setFilename, state.setIsDeleteModalOpen, state.setIsRenameModalOpen]);
 
     const openDeleteModal = (fileId: string) => {
         setFileId(fileId);
@@ -72,20 +52,17 @@ export function DataTable<TData, TValue>({
                 <TableBody>
                     {table.getRowModel().rows?.length ? (
                         table.getRowModel().rows.map((row) => (
-                            <TableRow
-                                key={row.id}
-                                data-state={row.getIsSelected() && "selected"}
-                            >
-                               
+                            <TableRow key={row.id} data-state={row.getIsSelected() && "selected"} >
                                 {row.getVisibleCells().map((cell) => (
                                     <TableCell key={cell.id}>
                                         {cell.column.id === "timestamp"
                                             ? (
                                                 <div className="flex flex-col">
+                                                    <div className="text-sm"></div>
                                                     <div className="text-sm">{(cell.getValue() as Date).toLocaleDateString()}</div>
-                                                    {/* <div className="text-xs text-gray-500">{(cell.getValue() as Date).toLocaleTimeString()}</div> */}
-                                                </div>
-                                            ) : cell.column.id === "filename"
+                                                    <div className="text-xs text-gray-500">{(cell.getValue() as Date).toLocaleTimeString()}</div>
+                                                </div>)
+                                            : cell.column.id === "filename"
                                                 ? (
                                                     <p className="flex items-center text-blue-500 hover:cursor-pointer underline" onClick={() => openRenameModal((row.original as Filetype).id, (row.original as Filetype).filename)}>
                                                         {cell.getValue() as string} <PencilIcon size={15} className="ml-2" />

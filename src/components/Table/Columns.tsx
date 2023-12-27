@@ -15,8 +15,8 @@ export const columns: ColumnDef<Filetype>[] = [
             const extension: string = type.split("/")[1];
             return (<div className='w-10'>
                 <FileIcon extension={extension} labelColor={COLOR_EXTENSION_MAP[extension]}
-                // @ts-ignore
-                {...defaultStyles[extension]} />
+                    // @ts-ignore
+                    {...defaultStyles[extension]} />
 
             </div>);
         }
@@ -40,7 +40,8 @@ export const columns: ColumnDef<Filetype>[] = [
         accessorKey: "downloadurl",
         header: "Link",
         cell: ({ renderValue, ...props }) => {
-            return <Link href={renderValue() as string} target='_blank' className='underline text-blue-500 hover:text-blue-600'>Download</Link>
+            const link = renderValue() as string;
+            return link == null ? <></> : <Link href={link} target='_blank' className='underline text-blue-500 hover:text-blue-600'>Download</Link>
         }
     },
 ]

@@ -3,8 +3,6 @@ import TableWrapper from '@/components/Table/TableWrapper';
 import { db } from '@/firebase';
 import { auth } from '@clerk/nextjs'
 import { collection, getDocs } from 'firebase/firestore';
-import { serverTimestamp } from 'firebase/database';
-import { Timestamp} from '@firebase/firestore'; 
 import { DeleteModal } from '@/components/DeleteModal';
 import RenameModal from '@/components/RenameModal';
 
@@ -14,7 +12,7 @@ const Dashboard = async () => {
 
   const docsResults = await getDocs(collection(db, "users", userId!, "files"));
 
-  const skeletonFiles = await docsResults.docs.map(doc => ({
+  const skeletonFiles = docsResults.docs.map(doc => ({
     id: doc.id,
     filename: doc.data().filename || doc.id,
     timestamp: new Date(doc.data().timestamp?.seconds * 1000) || undefined ,
